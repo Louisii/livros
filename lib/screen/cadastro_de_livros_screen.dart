@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:livros/model/indice.dart';
 import 'package:livros/model/livro.dart';
 import 'package:livros/repository/livro_repository.dart';
+import 'package:livros/widget/frosted_glass_card.dart';
 import 'package:livros/widget/indice_widget.dart';
+import 'package:livros/widget/add_indice_widget.dart'; // Importar o widget AddIndiceWidget
 
 class CadastroDeLivrosScreen extends StatefulWidget {
   final Livro? livro;
@@ -17,10 +19,6 @@ class _CadastroDeLivrosScreenState extends State<CadastroDeLivrosScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _tituloController = TextEditingController();
   List<Indice?> _indices = [];
-  final TextEditingController _novoIndiceTituloController =
-      TextEditingController();
-  final TextEditingController _novoIndicePaginaController =
-      TextEditingController();
 
   @override
   void initState() {
@@ -36,12 +34,18 @@ class _CadastroDeLivrosScreenState extends State<CadastroDeLivrosScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(widget.livro == null ? 'Cadastrar Livro' : 'Editar Livro'),
       ),
       body: Stack(
         children: [
           Container(
-            color: theme.colorScheme.surface,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg/bg4.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           SafeArea(
             child: _buildForm(),
@@ -54,25 +58,27 @@ class _CadastroDeLivrosScreenState extends State<CadastroDeLivrosScreen> {
   Widget _buildForm() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            _tituloField(),
-            _indicesList(),
-            const SizedBox(height: 20),
-            _addIndiceForm(),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: _saveBook,
-                  child: const Text('Salvar'),
-                ),
-              ],
-            ),
-          ],
+      child: FrostedGlassCard(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              _tituloField(),
+              _indicesList(),
+              const SizedBox(height: 20),
+              _addIndiceButton(), // Substituir o formulário de adição por um botão
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: _saveBook,
+                    child: const Text('Salvar'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -117,41 +123,24 @@ class _CadastroDeLivrosScreenState extends State<CadastroDeLivrosScreen> {
     );
   }
 
-  Widget _addIndiceForm() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: _novoIndiceTituloController,
-            decoration: const InputDecoration(labelText: 'Título do Índice'),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: _novoIndicePaginaController,
-            decoration: const InputDecoration(labelText: 'Página do Índice'),
-            keyboardType: TextInputType.number,
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            final titulo = _novoIndiceTituloController.text;
-            final pagina = int.tryParse(_novoIndicePaginaController.text) ?? 0;
-
-            if (titulo.isNotEmpty) {
-              setState(() {
-                _indices.add(
-                    Indice(titulo: titulo, pagina: pagina, subindices: []));
-                _novoIndiceTituloController.clear();
-                _novoIndicePaginaController.clear();
-              });
-            }
+  Widget _addIndiceButton() {
+    return TextButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AddIndiceWidget(
+              onAdd: (titulo, pagina) {
+                setState(() {
+                  _indices.add(
+                      Indice(titulo: titulo, pagina: pagina, subindices: []));
+                });
+              },
+            );
           },
-          child: const Text('Adicionar Índice'),
-        ),
-      ],
+        );
+      },
+      child: const Text('Adicionar Índice'),
     );
   }
 

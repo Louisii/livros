@@ -24,11 +24,10 @@ class _ListaDeLivrosScreenState extends State<ListaDeLivrosScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white.withOpacity(0.6),
-      //   elevation: 0.0,
-      //   title: Text("Livros"),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text("Livros"),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -47,7 +46,7 @@ class _ListaDeLivrosScreenState extends State<ListaDeLivrosScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/bg/bg1.jpg"),
+                image: AssetImage("assets/bg/bg4.png"),
                 fit: BoxFit.cover,
               ),
             ),

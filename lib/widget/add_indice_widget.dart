@@ -20,14 +20,20 @@ class _AddIndiceWidgetState extends State<AddIndiceWidget> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
-            controller: _tituloController,
-            decoration: const InputDecoration(labelText: 'Título do Índice'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _tituloController,
+              decoration: const InputDecoration(labelText: 'Título do Índice'),
+            ),
           ),
-          TextField(
-            controller: _paginaController,
-            decoration: const InputDecoration(labelText: 'Página do Índice'),
-            keyboardType: TextInputType.number,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _paginaController,
+              decoration: const InputDecoration(labelText: 'Página do Índice'),
+              keyboardType: TextInputType.number,
+            ),
           ),
         ],
       ),

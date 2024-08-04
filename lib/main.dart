@@ -33,17 +33,17 @@ class MainApp extends StatelessWidget {
           // floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
           fillColor: Colors.white.withOpacity(0.6),
-          border: const OutlineInputBorder(
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: Colors.white, width: 0.2),
+            borderSide: BorderSide(color: Colors.orange.shade300, width: 0.2),
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: Colors.white, width: 0.2),
+            borderSide: BorderSide(color: Colors.orange.shade300, width: 0.2),
           ),
-          focusedBorder: const OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: Colors.white, width: 0.2),
+            borderSide: BorderSide(color: Colors.orange.shade300, width: 0.2),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(

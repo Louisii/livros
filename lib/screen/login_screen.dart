@@ -15,13 +15,14 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/bg/bg1.jpg"),
+                image: AssetImage("assets/bg/bg4.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -30,14 +31,14 @@ class LoginScreen extends StatelessWidget {
             create: (context) => LoginBloc(
               authRepo: context.read<AuthRepository>(),
             ),
-            child: _loginForm(),
+            child: _loginForm(theme),
           ),
         ],
       ),
     );
   }
 
-  Widget _loginForm() {
+  Widget _loginForm(theme) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         final formStatus = state.formStatus;
@@ -56,10 +57,19 @@ class LoginScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: FrostedGlassCard(
+              width: 400,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.book,
+                      size: 100,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                   _usernameField(),
                   _passwordField(),
                   _loginButton(),
@@ -79,7 +89,7 @@ class LoginScreen extends StatelessWidget {
         child: TextFormField(
           decoration: const InputDecoration(
             suffixIcon: Icon(Icons.person),
-            hintText: 'Username',
+            hintText: 'Usuario',
           ),
           validator: (value) =>
               state.isValidUsername ? null : 'Username is too short',
@@ -99,7 +109,7 @@ class LoginScreen extends StatelessWidget {
           obscureText: true,
           decoration: const InputDecoration(
             suffixIcon: Icon(Icons.security),
-            hintText: 'Password',
+            hintText: 'Senha',
           ),
           validator: (value) =>
               state.isValidPassword ? null : 'Password is too short',
@@ -115,13 +125,16 @@ class LoginScreen extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return state.formStatus is FormSubmitting
           ? const CircularProgressIndicator()
-          : ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  context.read<LoginBloc>().add(LoginSubmitted());
-                }
-              },
-              child: const Text('Login'),
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<LoginBloc>().add(LoginSubmitted());
+                  }
+                },
+                child: const Text('Entrar'),
+              ),
             );
     });
   }
