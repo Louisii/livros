@@ -1,4 +1,4 @@
-import 'package:livros/auth/auth_repository.dart';
+import 'package:livros/repository/auth_repository.dart';
 import 'package:livros/auth/form_submission_status.dart';
 import 'package:livros/auth/login/login_event.dart';
 import 'package:livros/auth/login/login_state.dart';
